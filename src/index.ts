@@ -44,7 +44,8 @@ app.post("/calc", (req, res) => {
         }
     }
 
-    res.json({contextMax, yakuMapMax, scoreResultMax});
+    const yakuMapObj = Object.fromEntries(yakuMapMax);
+    res.json({contextMax, yakuMapObj, scoreResultMax});
 });
 
 app.listen(3000, () =>{
