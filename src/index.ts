@@ -47,7 +47,24 @@ app.post("/calc", (req, res) => {
     }
 
     const yakuMapObj = Object.fromEntries(yakuMapMax);
-    res.json({contextMax, yakuMapObj, scoreResultMax});
+
+    const fuDetailObj = scoreResultMax.fuDetail.map(fd => ({
+        name: fd.name,
+        fu: fd.fu,
+        mentsuType: fd.mentsu?.getType(),
+        minHaiId: fd.mentsu?.minHai.getId()
+    }));
+
+
+    const scoreResultObj = ({
+        han: scoreResultMax.han,
+        fuBasic: scoreResultMax.fuBasic,
+        fuCeiled: scoreResultMax.fuCeiled,
+        tensuu: scoreResultMax.tensuu,
+        fuDetail: fuDetailObj
+    });
+
+    res.json({contextMax, yakuMapObj, scoreResultObj});
 });
 
 app.listen(3000, () =>{
