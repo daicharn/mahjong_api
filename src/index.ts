@@ -1,4 +1,5 @@
-import express from "express"
+import express from "express";
+import cors from "cors";
 import {Hai} from 'mahjong_engine';
 import {Hais} from 'mahjong_engine';
 import {Melds} from 'mahjong_engine';
@@ -14,6 +15,7 @@ import {ScoreResult} from 'mahjong_engine';
 
 const app = express();
 app.use(express.json());
+app.use(cors());
 
 app.post("/calc", (req, res) => {
     const { haiIds } = req.body;
