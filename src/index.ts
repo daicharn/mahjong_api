@@ -2,7 +2,6 @@ import express from "express";
 import cors from "cors";
 import {Hai} from 'mahjong_engine';
 import {Hais} from 'mahjong_engine';
-import {Melds} from 'mahjong_engine';
 import {BlockDivider} from 'mahjong_engine';
 import {PlayerHand} from 'mahjong_engine';
 import {PlayerContext} from 'mahjong_engine';
@@ -11,18 +10,22 @@ import {YakuContext} from 'mahjong_engine';
 import {YakuChecker} from 'mahjong_engine';
 import {TILE} from 'mahjong_engine';
 import {ScoreResult} from 'mahjong_engine';
+import {Meld} from "mahjong_engine";
+import {MeldType} from "mahjong_engine";
 
+type meldJSON = {type: MeldType, hais: number[]};
 
 const app = express();
 app.use(express.json());
 app.use(cors());
 
 app.post("/calc", (req, res) => {
-    const { haiIds } = req.body;
+    const haiIds: number[] = req.body.haiIds;
+    const melds: meldJSON[] = req.body.melds;
+    const meldObjs: Meld[] = melds.map(m => new Meld(m.hais.map(id => new Hai(id)), m.type));
 
     const hais = new Hais(haiIds);
-    const melds = new Melds();
-    const hand = new PlayerHand(hais.getHais(), [...melds]);
+    const hand = new PlayerHand(hais.getHais(), [...meldObjs]);
     const ctx = new PlayerContext({agariHai: new Hai(5), isTsumo: true, playerWind: TILE.WIND.EAST, roundWind: TILE.WIND.EAST});
     const blocks = new BlockDivider(hais.getHais()).divide();
     if(blocks.length < 1){
