@@ -8,11 +8,10 @@ import {PlayerContext} from 'mahjong_engine';
 import {ScoreResolver} from 'mahjong_engine';
 import {YakuContext} from 'mahjong_engine';
 import {YakuChecker} from 'mahjong_engine';
-import {TILE} from 'mahjong_engine';
+import {Wind} from 'mahjong_engine';
 import {ScoreResult} from 'mahjong_engine';
 import {Meld} from "mahjong_engine";
 import {MeldType} from "mahjong_engine";
-import { Wind } from "mahjong_engine/dist/tileDefs";
 
 type meldJSON = {type: MeldType, hais: number[]};
 
