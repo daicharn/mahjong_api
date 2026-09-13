@@ -27,10 +27,23 @@ app.post("/calc", (req, res) => {
     const isTsumo: boolean = req.body.isTsumo;
     const playerWind: Wind = req.body.playerWind;
     const roundWind: Wind = req.body.roundWind;
+    const riichi: boolean = req.body.riichi;
+    const daburii: boolean = req.body.daburii;
+    const ippatsu: boolean = req.body.ippatsu;
+    const kuitan: boolean = req.body.kuitan;
 
     const hais = new Hais(haiIds);
     const hand = new PlayerHand(hais.getHais(), [...meldObjs]);
-    const ctx = new PlayerContext({agariHai: new Hai(agariHaiId), isTsumo: isTsumo, playerWind: playerWind, roundWind: roundWind});
+    const ctx = new PlayerContext({
+        agariHai: new Hai(agariHaiId), 
+        isTsumo: isTsumo,
+        playerWind: playerWind,
+        roundWind: roundWind,
+        riichi: riichi,
+        daburii: daburii,
+        ippatsu: ippatsu,
+        kuitan: kuitan
+    });
     const blocks = new BlockDivider(hais.getHais()).divide();
     if(blocks.length < 1){
         return res.json({ error: "no blocks" });
