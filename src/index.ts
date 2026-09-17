@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-import {Hai} from 'mahjong_engine';
+import {Hai, WinEvent} from 'mahjong_engine';
 import {Hais} from 'mahjong_engine';
 import {BlockDivider} from 'mahjong_engine';
 import {PlayerHand} from 'mahjong_engine';
@@ -12,6 +12,7 @@ import {Wind} from 'mahjong_engine';
 import {ScoreResult} from 'mahjong_engine';
 import {Meld} from "mahjong_engine";
 import {MeldType} from "mahjong_engine";
+import { EventEmitter } from "node:stream";
 
 type meldJSON = {type: MeldType, hais: number[]};
 
@@ -31,6 +32,7 @@ app.post("/calc", (req, res) => {
     const daburii: boolean = req.body.daburii;
     const ippatsu: boolean = req.body.ippatsu;
     const kuitan: boolean = req.body.kuitan;
+    const event: WinEvent = req.body.event;
 
     const hais = new Hais(haiIds);
     const hand = new PlayerHand(hais.getHais(), [...meldObjs]);
@@ -42,7 +44,8 @@ app.post("/calc", (req, res) => {
         riichi: riichi,
         daburii: daburii,
         ippatsu: ippatsu,
-        kuitan: kuitan
+        kuitan: kuitan,
+        event: event
     });
     const blocks = new BlockDivider(hais.getHais()).divide();
     if(blocks.length < 1){
