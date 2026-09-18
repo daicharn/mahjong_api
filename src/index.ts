@@ -33,6 +33,7 @@ app.post("/calc", (req, res) => {
     const ippatsu: boolean = req.body.ippatsu;
     const kuitan: boolean = req.body.kuitan;
     const event: WinEvent = req.body.event;
+    const dora: number = req.body.dora;
 
     const hais = new Hais(haiIds);
     const hand = new PlayerHand(hais.getHais(), [...meldObjs]);
@@ -45,7 +46,8 @@ app.post("/calc", (req, res) => {
         daburii: daburii,
         ippatsu: ippatsu,
         kuitan: kuitan,
-        event: event
+        event: event,
+        dora: dora
     });
     const blocks = new BlockDivider(hais.getHais()).divide();
     if(blocks.length < 1){
