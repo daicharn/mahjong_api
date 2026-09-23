@@ -12,7 +12,6 @@ import {Wind} from 'mahjong_engine';
 import {ScoreResult} from 'mahjong_engine';
 import {Meld} from "mahjong_engine";
 import {MeldType} from "mahjong_engine";
-import { EventEmitter } from "node:stream";
 
 type meldJSON = {type: MeldType, hais: number[]};
 
@@ -79,7 +78,8 @@ app.post("/calc", (req, res) => {
         name: fd.name,
         fu: fd.fu,
         mentsuType: fd.mentsu?.getType(),
-        minHaiId: fd.mentsu?.minHai.getId()
+        minHaiId: fd.mentsu?.minHai.getId(),
+        machiType: fd.machiType
     }));
 
 
