@@ -88,6 +88,7 @@ app.post("/calc", (req, res) => {
         fuBasic: scoreResultMax.fuBasic,
         fuCeiled: scoreResultMax.fuCeiled,
         tensuu: scoreResultMax.tensuu,
+        hanName: scoreResultMax.hanName,
         fuDetail: fuDetailObj
     });
 
