@@ -63,7 +63,10 @@ app.post("/calc", (req, res) => {
         const yakuMap = new YakuChecker(context).check();
         const scoreResult = new ScoreResolver(context, yakuMap).resolve();
 
-        if(scoreResultMax.han < scoreResult.han || scoreResultMax.tensuu.base < scoreResult.tensuu.base){
+        const isHighHan = scoreResultMax.han < scoreResult.han;
+        const isSameHan = scoreResultMax.han === scoreResult.han;
+        const isHighFu = scoreResultMax.fuBasic < scoreResult.fuBasic;
+        if(isHighHan || (isSameHan && isHighFu)){
         contextMax = context;
         yakuMapMax = yakuMap;
         scoreResultMax = scoreResult;
