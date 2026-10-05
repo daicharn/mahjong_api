@@ -1,6 +1,8 @@
 import express from "express";
 import cors from "cors";
-import {Hai, WinEvent} from 'mahjong_engine';
+import {Hai} from 'mahjong_engine';
+import {WinEvent} from 'mahjong_engine';
+import {YakuDetails} from 'mahjong_engine';
 import {Hais} from 'mahjong_engine';
 import {BlockDivider} from 'mahjong_engine';
 import {PlayerHand} from 'mahjong_engine';
@@ -53,11 +55,11 @@ app.post("/calc", (req, res) => {
         return res.json({ error: "no blocks" });
     }
     let contextMax: YakuContext = new YakuContext(hand, ctx, blocks[0]!);
-    let yakuMapMax: Map<string, number> = new YakuChecker(contextMax).check();
-    if(yakuMapMax.size < 1){
+    let detailsMax: YakuDetails = new YakuChecker(contextMax).check();
+    if(detailsMax.length < 1){
         return res.json({ error: "no yaku" });
     }
-    let scoreResultMax: ScoreResult = new ScoreResolver(contextMax, yakuMapMax).resolve();;
+    let scoreResultMax: ScoreResult = new ScoreResolver(contextMax, detailsMax).resolve();;
     for(let i = 1; i < blocks.length; i++){
         const context = new YakuContext(hand, ctx, blocks[i]!);
         const yakuMap = new YakuChecker(context).check();
@@ -68,12 +70,12 @@ app.post("/calc", (req, res) => {
         const isHighFu = scoreResultMax.fuBasic < scoreResult.fuBasic;
         if(isHighHan || (isSameHan && isHighFu)){
         contextMax = context;
-        yakuMapMax = yakuMap;
+        detailsMax = yakuMap;
         scoreResultMax = scoreResult;
         }
     }
 
-    const yakuMapObj = Object.fromEntries(yakuMapMax);
+    const yakuMapObj = Object.fromEntries(detailsMax.toMap());
 
     const blockObj = contextMax.block;
 
